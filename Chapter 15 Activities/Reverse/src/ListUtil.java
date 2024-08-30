@@ -15,20 +15,15 @@ public class ListUtil
     {
         LinkedList<String> newList = new LinkedList<>();
         ListIterator<String> iterator = strings.listIterator();
-        int count = 0;
+        
         while(iterator.hasNext())
         {
-            if(iterator.hasNext())
-            {
-                count++;
-            }
-            else
-            {
-                String n = iterator.previous();
-                System.out.println(n);
-                
-            }
+            iterator.next();
         }
-        
-    }
+        while(iterator.hasPrevious())
+        {
+            String n = iterator.previous();
+            newList.add(n);
+        }
+    }   
 }
