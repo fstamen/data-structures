@@ -16,14 +16,18 @@ public class ListUtil
         LinkedList<String> newList = new LinkedList<>();
         ListIterator<String> iterator = strings.listIterator();
         
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             iterator.next();
         }
-        while(iterator.hasPrevious())
-        {
+        
+        
+        while (iterator.hasPrevious()) {
             String n = iterator.previous();
             newList.add(n);
         }
+        
+        
+        strings.clear();
+        strings.addAll(newList);
+    }
     }   
-}
