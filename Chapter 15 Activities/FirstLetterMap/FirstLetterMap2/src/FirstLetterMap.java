@@ -16,26 +16,28 @@ public class FirstLetterMap
 
         try (Scanner in = new Scanner(new File(filename)))
         {
-
-            // Create your map here
-            ...
+            Map<Character, Set<String>> wordMap = new HashMap<>();
 
             while (in.hasNext())
             {
                 String word = clean(in.next());
-                Character c = word.charAt(0);
+                
+                if (word.length() > 0) {
+                    Character firstLetter = word.charAt(0);
 
-                // Update the map here
-                // Modify Worked Example 15.1
-                . . .
-
-
+               
+                    Set<String> wordSet = wordMap.getOrDefault(firstLetter, new HashSet<>());
+                    wordSet.add(word);
+                    wordMap.put(firstLetter, wordSet);
+                }
             }
 
-            // Print the map here in this form
-            // a: [a, able, aardvark]
-            . . .
-        } catch (FileNotFoundException e)
+
+            wordMap.keySet().stream().sorted().forEach(key -> {
+                System.out.println(key + ": " + wordMap.get(key));
+            });
+        }
+        catch (FileNotFoundException e)
         {
             System.out.println("Cannot open: " + filename);
         }
@@ -43,15 +45,15 @@ public class FirstLetterMap
 
     public static String clean(String s)
     {
-        String r = "";
+        StringBuilder r = new StringBuilder();
         for (int i = 0; i < s.length(); i++)
         {
             char c = s.charAt(i);
             if (Character.isLetter(c))
             {
-                r = r + c;
+                r.append(c);
             }
         }
-        return r.toLowerCase();
+        return r.toString().toLowerCase();
     }
 }
