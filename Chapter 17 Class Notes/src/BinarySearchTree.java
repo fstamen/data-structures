@@ -31,6 +31,14 @@ public class BinarySearchTree
     */
     public boolean find(Comparable obj)
     {
+        Node current = this.root;
+
+        while(current !=null){
+            int diff = obj.compareTo(current.data);
+            if(diff==0){
+                return true;
+            }
+        }
         return false;
     }
     
@@ -41,6 +49,12 @@ public class BinarySearchTree
     */
     public void remove(Comparable obj)
     {
+        Node newNode = new Node();
+        newNode.data = obj;
+        newNode.left = null;
+        newNode.right = null;
+
+    
         
     }
     
@@ -67,6 +81,10 @@ public class BinarySearchTree
     */
     static class Node
     {   
+        // must be made out of comparable objects
+        public Comparable data;
+        public Node left;
+        public Node right;
         
 
         /**
@@ -75,6 +93,27 @@ public class BinarySearchTree
         */
         public void addNode(Node newNode)
         {   
+            int diff = newNode.data.compareTo(data);
+
+            if(diff<0){
+                if (left == null){
+                    left = newNode;
+                }
+                else{
+                    left.addNode(newNode);
+                }
+            }
+            else if(diff>0)
+            {
+                if(right == null){
+                    right = newNode;
+
+                }
+                else{
+                    right.addNode(newNode);
+
+                }
+            }
             
         }
     }

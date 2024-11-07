@@ -10,7 +10,7 @@ public class BinaryTree
     */
     public BinaryTree()
     {
-         
+         root =null;
     } 
 
     /**
@@ -19,6 +19,8 @@ public class BinaryTree
     */
     public BinaryTree(Object rootData) 
     {
+        this.root = new Node();
+        this.root.data = rootData;
         
     }
 
@@ -30,11 +32,15 @@ public class BinaryTree
     */
     public BinaryTree(Object rootData, BinaryTree left, BinaryTree right)
     {
+        this(rootData);
         
     }
     
     static class Node
     {
+        pybkuc Object data;
+        public Node left;
+
         
     }
 
@@ -45,7 +51,14 @@ public class BinaryTree
     */
     private static int height(Node n)
     {
-        return 0;
+        if(n==null){
+
+            return 0;
+        }
+        else{
+            return 1 + Math.max(BinaryTree.height(n.left), BinaryTree.height(n.right));
+            
+        }
     }
 
     /**
@@ -54,7 +67,7 @@ public class BinaryTree
     */
     public int height()
     {
-        return 0;
+        return BinaryTree.height(this.root);
     }
 
     /**
@@ -63,7 +76,7 @@ public class BinaryTree
     */
     public boolean isEmpty()
     {
-         return false;
+         return this.root==null;
     }
 
     /**
@@ -81,7 +94,11 @@ public class BinaryTree
     */
     public BinaryTree left() 
     { 
-        return null;
+        BinaryTree subtree = new BinaryTree();
+        subtree.root = this.root.left;
+        return subtree;
+
+        
     }
 
     /**
