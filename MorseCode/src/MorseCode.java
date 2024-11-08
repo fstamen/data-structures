@@ -70,11 +70,10 @@ public class MorseCode
      * and calls treeInsert to insert them into the decoding tree.
      */
     private static void addSymbol(char letter, String code)
-    {
-        /*
-            !!! INSERT CODE HERE
-        */
-    }
+{
+    codeMap.put(letter, code);  // Add to encoding map
+    treeInsert(letter, code);    // Insert into decoding tree
+}
 
     /**
      * Inserts a letter and its Morse code string into the
@@ -82,13 +81,24 @@ public class MorseCode
      * in the tree from the root to a node: at a "dot" go left, at a "dash" go
      * right.  The node at the end of the path holds the symbol
      * for that code string.
-     */
-    private static void treeInsert(char letter, String code)
-    {
-        /*
-            !!! INSERT CODE HERE
-        */
+     */private static void treeInsert(char letter, String code)
+{
+    TreeNode currentNode = decodeTree;
+    for (char c : code.toCharArray()) {
+        if (c == DOT) {
+            if (currentNode.getLeft() == null) {
+                currentNode.setLeft(new TreeNode(' '));
+            }
+            currentNode = currentNode.getLeft();
+        } else if (c == DASH) {
+            if (currentNode.getRight() == null) {
+                currentNode.setRight(new TreeNode(' '));
+            }
+            currentNode = currentNode.getRight();
+        }
     }
+    currentNode.setValue(letter);  // Set the letter at the final node
+}
 
     /**
      * Converts text into a Morse code message.  Adds a space after a dot-dash
@@ -97,15 +107,17 @@ public class MorseCode
      * Returns the encoded message.
      */
     public static String encode(String text)
-    {
-        StringBuffer morse = new StringBuffer(400);
-
-        /*
-            !!! INSERT CODE HERE
-        */
-
-        return morse.toString();
+{
+    StringBuilder morse = new StringBuilder();
+    for (char letter : text.toUpperCase().toCharArray()) {
+        if (letter == ' ') {
+            morse.append(" ");
+        } else {
+            morse.append(codeMap.get(letter)).append(" ");
+        }
     }
+    return morse.toString().trim();  // Remove trailing space
+}
 
     /**
      * Converts a Morse code message into a text string.  Assumes that dot-dash
@@ -114,15 +126,27 @@ public class MorseCode
      * Returns the plain text message.
      */
     public static String decode(String morse)
-    {
-        StringBuffer text = new StringBuffer(100);
+{
+    StringBuilder text = new StringBuilder();
+    String[] words = morse.split("   ");  // Split Morse code by word (three spaces)
 
-        /*
-            !!! INSERT CODE HERE
-        */
-
-        return text.toString();
+    for (String word : words) {
+        String[] letters = word.split(" ");
+        for (String letterCode : letters) {
+            TreeNode currentNode = decodeTree;
+            for (char c : letterCode.toCharArray()) {
+                if (c == DOT) {
+                    currentNode = currentNode.getLeft();
+                } else if (c == DASH) {
+                    currentNode = currentNode.getRight();
+                }
+            }
+            text.append(currentNode.getValue());
+        }
+        text.append(" ");
     }
+    return text.toString().trim();  // Remove trailing space
+}
 }
 
 /**
@@ -214,4 +238,3 @@ class BTreePrinter {
         return true;
     }
 }
-
